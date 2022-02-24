@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Component, ErrorInfo, ReactNode } from 'react';
+import Button from 'components/Button';
 
 interface Props {
 	children: ReactNode;
@@ -10,6 +11,10 @@ interface State {
 }
 
 class ErrorBoundary extends Component<Props, State> {
+	handleRedirect = () => {
+		window.location.assign('/');
+	};
+
 	public state: State = {
 		hasError: false
 	};
@@ -26,7 +31,14 @@ class ErrorBoundary extends Component<Props, State> {
 	public render() {
 		const { hasError } = this.state;
 		if (hasError) {
-			return <h1>Sorry.. there was an error</h1>;
+			return (
+				<div className="w-screen h-screen flex justify-center items-center flex-col">
+					<div>Sorry.. there was an error</div>
+					<div className='mt-20'>
+						<Button label="Reutrn to Home" onClick={this.handleRedirect} />
+					</div>
+				</div>
+			);
 		}
 
 		return this.props.children;

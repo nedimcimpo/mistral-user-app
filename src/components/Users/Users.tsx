@@ -15,9 +15,12 @@ import Button from 'components/Button';
 import Pagination from 'components/Pagination';
 import Loader from 'components/Loader';
 import { Input, Select } from 'components/FormControls';
+import { useNavigate } from 'react-router-dom';
 
 export default function Users() {
 	const dispatch = useAppDispatch();
+	const navigate = useNavigate();
+
 	const users = useAppSelector(selectUsers);
 	const usersRequest = useAppSelector(selectUsersRequest);
 	const deleteUserSuccess = useAppSelector(selectDeleteUserSuccess);
@@ -111,6 +114,7 @@ export default function Users() {
 	return (
 		<div>
 			<div className="flex justify-between">
+				<Button label="Add New User" onClick={() => navigate('/create')} className='w-80' />
 				{(searchValue?.length > 0 || sortValue.sortBy.length > 0) && <Button label="Clear" onClick={clearFilters} />}
 				<form className="flex justify-end w-full" onSubmit={(e) => e.preventDefault()}>
 					<div className="flex mr-10 align-top">

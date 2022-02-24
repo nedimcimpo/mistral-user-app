@@ -13,4 +13,6 @@ export const selectDeleteUserSuccess = (state: RootState) => state.users.deleteU
 export const selectEditUserRequest = (state: RootState) => state.users.editUser.status === STATUS.PENDING;
 export const selectEditUserSuccess = (state: RootState) => state.users.editUser.status === STATUS.FULFILLED;
 
+export const selectAddUserSuccess = (state: RootState) => state.users.addUser.status === STATUS.FULFILLED;
+
 export const selectDeleteUserModal = (state: RootState) => state.users.deleteUserModal.show;

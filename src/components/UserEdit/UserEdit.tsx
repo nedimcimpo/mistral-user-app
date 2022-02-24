@@ -8,8 +8,16 @@ import * as yup from 'yup';
 import { useAppDispatch, useAppSelector } from 'hooks/useRedux';
 
 // state
-import { addUser, editUser, editUserInit, getUser, getUserInit, getUsers } from 'state/actions/usersActions';
-import { selectEditUserSuccess, selectUser, selectUserRequest } from 'state/selectors/usersSelectors';
+import {
+	addUser,
+	addUserInit,
+	editUser,
+	editUserInit,
+	getUser,
+	getUserInit,
+	getUsers
+} from 'state/actions/usersActions';
+import { selectAddUserSuccess, selectEditUserSuccess, selectUser, selectUserRequest } from 'state/selectors/usersSelectors';
 import { selectPermissions } from 'state/selectors/permissionsSelectors';
 
 // components
@@ -25,6 +33,7 @@ export default function UserEdit() {
 	const userRequest = useAppSelector(selectUserRequest);
 	const permissions = useAppSelector(selectPermissions);
 	const editUserSuccess = useAppSelector(selectEditUserSuccess);
+	const addUserSuccess = useAppSelector(selectAddUserSuccess);
 
 	useEffect(() => {
 		if (id) {
@@ -59,6 +68,7 @@ export default function UserEdit() {
 
 	useEffect(() => {
 		if (user) {
+			setValue('username', user.username, { shouldValidate: true });
 			setValue('firstName', user.firstName, { shouldValidate: true });
 			setValue('lastName', user.lastName, { shouldValidate: true });
 			setValue('email', user.email, { shouldValidate: true });
@@ -68,12 +78,13 @@ export default function UserEdit() {
 	}, [user, setValue]);
 
 	useEffect(() => {
-		if (editUserSuccess) {
+		if (editUserSuccess || addUserSuccess) {
 			dispatch(editUserInit());
+			dispatch(addUserInit());
 			dispatch(getUsers());
 			navigate('/');
 		}
-	}, [editUserSuccess, dispatch, navigate]);
+	}, [editUserSuccess, addUserSuccess, dispatch, navigate]);
 
 	useEffect(() => {
 		return () => {
@@ -87,6 +98,7 @@ export default function UserEdit() {
 
 	return (
 		<form onSubmit={handleSubmit(onSubmit)} data-testi="user-edit">
+			<Input register={register} name="username" type="text" label="Username" />
 			<Input register={register} name="firstName" type="text" label="First Name" error={errors && errors['firstName']} />
 			<Input register={register} name="lastName" type="text" label="Last Name" error={errors && errors['lastName']} />
 			<Input register={register} name="email" type="text" label="Email" />
