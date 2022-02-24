@@ -1,18 +1,28 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import { store } from './app/store';
 import { Provider } from 'react-redux';
+
+import { store } from 'state/store';
 import * as serviceWorker from './serviceWorker';
 
+import Router from 'router/Router';
+
+import ErrorBoundary from 'components/ErrorBoundary';
+
+import './index.css';
+import MainLayout from 'layouts/MainLayout';
+
 ReactDOM.render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <App />
-    </Provider>
-  </React.StrictMode>,
-  document.getElementById('root')
+	<React.StrictMode>
+		<Provider store={store}>
+			<ErrorBoundary>
+				<MainLayout>
+					<Router />
+				</MainLayout>
+			</ErrorBoundary>
+		</Provider>
+	</React.StrictMode>,
+	document.getElementById('root')
 );
 
 // If you want your app to work offline and load faster, you can change
